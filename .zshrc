@@ -4,7 +4,7 @@ export CLICOLOR_FORCE=1
 
 autoload -U colors && colors
 
-plugins=(git history zsh-autosuggestions)
+plugins=(git history)
 
 HISTSIZE=1000
 SAVEHIST=1000
@@ -48,7 +48,12 @@ alias gc='git commit'
 alias gp='git pull --rebase'
 alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+# plugins
+source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 prompt='%F{255}%F %F{78}%3~%F %F{yellow}${vcs_info_msg_0_}%F> '
+
+# note: use symlinks
+# ln -sv ~/Projects/dotfiles/.vimrc ~
+# ln -sv ~/Projects/dotfiles/.zshrc ~
