@@ -34,12 +34,14 @@ alias pip=/usr/local/bin/pip3.9
 
 # terraform aliases
 alias tf='terraform'
+alias tfi='terraform init'
 alias tfa='terraform apply'
 alias tfaa='terraform apply --auto-approve'
 alias tfd='terraform destroy'
 alias tfda='terraform destroy --auto-approve'
 alias tfp='terraform plan'
 alias tfsl='terraform state list'
+alias tff='terraform fmt'
 
 export TERM="xterm-256color"
 # git aliases
@@ -57,3 +59,11 @@ prompt='%F{255}%F %F{78}%3~%F %F{yellow}${vcs_info_msg_0_}%F> '
 # note: use symlinks
 # ln -sv ~/Projects/dotfiles/.vimrc ~
 # ln -sv ~/Projects/dotfiles/.zshrc ~
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kwong/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kwong/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kwong/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kwong/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+export PATH="/usr/local/opt/terraform@0.13/bin:$PATH"
