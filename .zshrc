@@ -25,13 +25,6 @@ precmd() {
 }
 setopt prompt_subst
 
-
-alias python=/usr/local/bin/python3.9
-alias python=/usr/local/bin/pip3
-alias python=/usr/local/bin/python3.9
-alias pip=/usr/local/bin/pip3
-alias pip=/usr/local/bin/pip3.9
-
 # terraform aliases
 alias tf='terraform'
 alias tfi='terraform init'
@@ -65,5 +58,13 @@ if [ -f '/Users/kwong/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kwong/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kwong/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-# export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
-export PATH="/usr/local/opt/terraform@0.13/bin:$PATH"
+
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv init --path)"
+fi
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
