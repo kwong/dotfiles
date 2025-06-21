@@ -45,19 +45,13 @@ alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %
 
 # plugins
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 prompt='%F{255}%F %F{78}%3~%F %F{yellow}${vcs_info_msg_0_}%F> '
 
 # note: use symlinks
 # ln -sv ~/Projects/dotfiles/.vimrc ~
 # ln -sv ~/Projects/dotfiles/.zshrc ~
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kwong/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kwong/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kwong/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kwong/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
@@ -68,3 +62,18 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kangwei/google-cloud-sdk/completion.zsh.inc' ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/kangwei/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+. "$HOME/.local/bin/env"
