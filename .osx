@@ -1,0 +1,13 @@
+# Disable natural scrolling on macOS
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+
+# Show percentage on battery icon in menu
+defaults write com.apple.menuextra.battery ShowPercent -string "YES"
+
+# Show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Always show scrollbar
+defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
+
+
