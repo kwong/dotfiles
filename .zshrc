@@ -4,16 +4,25 @@ export CLICOLOR_FORCE=1
 
 autoload -U colors && colors
 
-plugins=(git history)
+plugins=(
+  git history
+  git
+  zsh-autosuggestions
+  zsh-syntax-highliting
+)
 
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE="$HOME/.zsh_history"
 
-autoload -U compinit
+# tab completion
+# zmodload zsh/complist
+autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
-zmodload zsh/complist
-compinit
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' accept-exact '*(N)'
 _comp_options+=(globdots)
 
 # git branch info in prompt
@@ -44,10 +53,11 @@ alias gp='git pull --rebase'
 alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 
 # plugins
-source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-prompt='%F{255}%F %F{78}%3~%F %F{yellow}${vcs_info_msg_0_}%F> '
+PROMPT=' %F%3~%F %F{27}${vcs_info_msg_0_}%F '
+RPROMPT='%F{blue}%T%f'
 
 # note: use symlinks
 # ln -sv ~/Projects/dotfiles/.vimrc ~
@@ -77,3 +87,7 @@ export PATH="/Users/kangwei/.rd/bin:$PATH"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 . "$HOME/.local/bin/env"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/kangwei/.lmstudio/bin"
+# End of LM Studio CLI section
