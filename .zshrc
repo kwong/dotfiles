@@ -1,22 +1,45 @@
+# ---------------------------------------------------------------------------
+# Environment & PATH
+# ---------------------------------------------------------------------------
+typeset -U path PATH   # keep PATH entries unique
+
 unset LSCOLORS
 export CLICOLOR=1
-export CLICOLOR_FORCE=1
 
-autoload -U colors && colors
+export GOPATH="$HOME/go"
+path+=("$GOPATH/bin")
 
-plugins=(
-  git history
-  git
-  zsh-autosuggestions
-  zsh-syntax-highliting
-)
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-HISTSIZE=1000
-SAVEHIST=1000
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/kangwei/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/kangwei/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# Added by Antigravity
+export PATH="/Users/kangwei/.antigravity/antigravity/bin:$PATH"
+
+# ---------------------------------------------------------------------------
+# History
+# ---------------------------------------------------------------------------
 HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt share_history hist_ignore_all_dups hist_ignore_space extended_history
 
-# tab completion
-# zmodload zsh/complist
+# ---------------------------------------------------------------------------
+# Options
+# ---------------------------------------------------------------------------
+setopt autocd
+
+# ---------------------------------------------------------------------------
+# Completion
+# ---------------------------------------------------------------------------
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -25,16 +48,43 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' accept-exact '*(N)'
 _comp_options+=(globdots)
 
-# git branch info in prompt
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git svn
+gcloud_sdk="$HOME/Downloads/google-cloud-sdk"
+[[ -f "$gcloud_sdk/path.zsh.inc" ]] && . "$gcloud_sdk/path.zsh.inc"
+[[ -f "$gcloud_sdk/completion.zsh.inc" ]] && . "$gcloud_sdk/completion.zsh.inc"
+unset gcloud_sdk
+
+# ---------------------------------------------------------------------------
+# Prompt (git branch via vcs_info)
+# ---------------------------------------------------------------------------
+autoload -Uz vcs_info add-zsh-hook
+zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:git*' formats "[%b]"
-precmd() {
-    vcs_info
-}
+add-zsh-hook precmd vcs_info
 setopt prompt_subst
 
-# terraform aliases
+PROMPT=' %F{156}%3~%f %F{120}${vcs_info_msg_0_}%f '
+RPROMPT='%F{157}%T%f'
+# eval "$(starship init zsh)"
+
+# ---------------------------------------------------------------------------
+# Aliases
+# ---------------------------------------------------------------------------
+# navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias -- -='cd -'
+
+# files
+alias ll='ls -lah'
+alias la='ls -A'
+alias lt='ls -laht'
+
+# safety nets (prompt before overwrite/delete)
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# terraform
 alias tf='terraform'
 alias tfi='terraform init'
 alias tfa='terraform apply'
@@ -45,49 +95,16 @@ alias tfp='terraform plan'
 alias tfsl='terraform state list'
 alias tff='terraform fmt'
 
-export TERM="xterm-256color"
-# git aliases
+# git
 alias gs='git status'
 alias gc='git commit'
 alias gp='git pull --rebase'
 alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 
-# plugins
-# source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-PROMPT=' %F%3~%F %F{27}${vcs_info_msg_0_}%F '
-RPROMPT='%F{blue}%T%f'
-
-# note: use symlinks
-# ln -sv ~/Projects/dotfiles/.vimrc ~
-# ln -sv ~/Projects/dotfiles/.zshrc ~
-
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv init --path)"
-fi
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$HOME/Library/Python/3.9/bin:$PATH"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kangwei/google-cloud-sdk/completion.zsh.inc' ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/kangwei/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
-. "$HOME/.local/bin/env"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/kangwei/.lmstudio/bin"
-# End of LM Studio CLI section
+# ---------------------------------------------------------------------------
+# Plugins (keep last; syntax-highlighting must be sourced at the very end)
+# ---------------------------------------------------------------------------
+zsh_plugins="$HOME/.zsh/plugins"
+# [[ -f "$zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && . "$zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# [[ -f "$zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && . "$zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+unset zsh_plugins
